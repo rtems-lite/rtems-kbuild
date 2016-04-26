@@ -36,4 +36,4 @@ platforms += vr41xx
 platforms += xilfpga
 
 # include the platform specific files
-include $(patsubst %, $(srctree)/arch/mips/%/Platform, $(platforms))
+# include $(patsubst %, $(srctree)/arch/mips/%/Platform, $(platforms))

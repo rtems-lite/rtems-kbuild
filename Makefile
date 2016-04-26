@@ -257,10 +257,10 @@ SRCARCH 	:= $(ARCH)
 
 # Additional ARCH settings for x86
 ifeq ($(ARCH),i386)
-        SRCARCH := x86
+        SRCARCH := i386
 endif
 ifeq ($(ARCH),x86_64)
-        SRCARCH := x86
+        SRCARCH := i386
 endif
 
 # Additional ARCH settings for sparc
@@ -357,8 +357,9 @@ PERL		= perl
 PYTHON		= python
 CHECK		= sparse
 
-CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
-		  -Wbitwise -Wno-return-void $(CF)
+CHECKFLAGS     := 
+#CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
+#		  -Wbitwise -Wno-return-void $(CF)
 CFLAGS_MODULE   =
 AFLAGS_MODULE   =
 LDFLAGS_MODULE  =
@@ -374,10 +375,22 @@ USERINCLUDE    := \
 		-I$(srctree)/include/uapi \
 		-Iinclude/generated/uapi \
                 -include $(srctree)/include/linux/kconfig.h
-
 # Use LINUXINCLUDE when you must reference the include/ directory.
 # Needed to be compatible with the O= option
 LINUXINCLUDE    := \
+		-Ic/src/lib/libbsp/shared/include \
+		-Ic/src/lib/libcpu/$(ARCH)/s3c24xx/include \
+		-Ic/src/lib/libcpu/$(ARCH)/include \
+		-Ic/src/lib/libcpu/$(ARCH)/shared/include \
+		-Icpukit \
+		-Icpukit/score/include \
+		-Icpukit/dev/include \
+		-Icpukit/include \
+		-Icpukit/score/cpu/arm \
+		-DHAVE_CONFIG_H -DCPU_S3C2410 -D__rtems__ \
+		-Iinclude
+
+LINUXINCLUDE_   := \
 		-I$(srctree)/arch/$(hdr-arch)/include \
 		-Iarch/$(hdr-arch)/include/generated/uapi \
 		-Iarch/$(hdr-arch)/include/generated \
@@ -385,9 +398,9 @@ LINUXINCLUDE    := \
 		-Iinclude \
 		$(USERINCLUDE)
 
-KBUILD_CPPFLAGS := -D__KERNEL__
+#KBUILD_CPPFLAGS := -D__KERNEL__
 
-KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
+__KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -fno-strict-aliasing -fno-common \
 		   -Werror-implicit-function-declaration \
 		   -Wno-format-security \
@@ -395,7 +408,7 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 
 KBUILD_AFLAGS_KERNEL :=
 KBUILD_CFLAGS_KERNEL :=
-KBUILD_AFLAGS   := -D__ASSEMBLY__
+KBUILD_AFLAGS   := -D__ASSEMBLY__ -DASM
 KBUILD_AFLAGS_MODULE  := -DMODULE
 KBUILD_CFLAGS_MODULE  := -DMODULE
 KBUILD_LDFLAGS_MODULE := -T $(srctree)/scripts/module-common.lds
@@ -521,7 +534,11 @@ ifeq ($(config-targets),1)
 # Read arch specific Makefile to set KBUILD_DEFCONFIG as needed.
 # KBUILD_DEFCONFIG may point out an alternative default configuration
 # used for 'make defconfig'
-include arch/$(SRCARCH)/Makefile
+# include arch/$(SRCARCH)/Makefile
+include c/src/lib/libcpu/$(SRCARCH)/Makefile
+include c/src/lib/libbsp/$(SRCARCH)/Makefile
+#include cpukit/score/cpu/$(SRCARCH)/rtems/score/Makefile
+
 export KBUILD_DEFCONFIG KBUILD_KCONFIG
 
 config: scripts_basic outputmakefile FORCE
@@ -540,17 +557,20 @@ ifeq ($(KBUILD_EXTMOD),)
 # Carefully list dependencies so we do not try to build scripts twice
 # in parallel
 PHONY += scripts
-scripts: scripts_basic include/config/auto.conf include/config/tristate.conf \
-	 asm-generic
-	$(Q)$(MAKE) $(build)=$(@)
+scripts: ;
+#scripts: scripts_basic include/config/auto.conf include/config/tristate.conf \
+#	 asm-generic
+#	$(Q)$(MAKE) $(build)=$(@)
 
 # Objects we will link into vmlinux / subdirs we need to visit
-init-y		:= init/
-drivers-y	:= drivers/ sound/ firmware/
-net-y		:= net/
-libs-y		:= lib/
-core-y		:= usr/
-virt-y		:= virt/
+# init-y		:= init/
+# drivers-y	:= drivers/ sound/ firmware/
+# drivers-y	:= c/src/libchip/
+# net-y		:= net/
+# libs-y		:= lib/
+# core-y		:= usr/
+# core-y		:= c/src/support/
+# virt-y		:= virt/
 endif # KBUILD_EXTMOD
 
 ifeq ($(dot-config),1)
@@ -603,7 +623,10 @@ all: vmlinux
 ARCH_CPPFLAGS :=
 ARCH_AFLAGS :=
 ARCH_CFLAGS :=
-include arch/$(SRCARCH)/Makefile
+# include arch/$(SRCARCH)/Makefile
+include c/src/lib/libcpu/$(SRCARCH)/Makefile
+include c/src/lib/libbsp/$(SRCARCH)/Makefile
+#include cpukit/score/cpu/$(SRCARCH)/Makefile
 
 KBUILD_CFLAGS	+= $(call cc-option,-fno-delete-null-pointer-checks,)
 
@@ -743,7 +766,7 @@ KBUILD_CFLAGS += $(call cc-option, -fno-inline-functions-called-once)
 endif
 
 # arch Makefile may override CC so keep this after arch Makefile is included
-NOSTDINC_FLAGS += -nostdinc -isystem $(shell $(CC) -print-file-name=include)
+# NOSTDINC_FLAGS += -nostdinc -isystem $(shell $(CC) -print-file-name=include)
 CHECKFLAGS     += $(NOSTDINC_FLAGS)
 
 # warn about C99 declaration after statement
@@ -772,8 +795,8 @@ KBUILD_ARFLAGS := $(call ar-option,D)
 
 # check for 'asm goto'
 ifeq ($(shell $(CONFIG_SHELL) $(srctree)/scripts/gcc-goto.sh $(CC)), y)
-	KBUILD_CFLAGS += -DCC_HAVE_ASM_GOTO
-	KBUILD_AFLAGS += -DCC_HAVE_ASM_GOTO
+#	KBUILD_CFLAGS += -DCC_HAVE_ASM_GOTO
+#	KBUILD_AFLAGS += -DCC_HAVE_ASM_GOTO
 endif
 
 include scripts/Makefile.kasan
@@ -879,7 +902,7 @@ export mod_sign_cmd
 
 
 ifeq ($(KBUILD_EXTMOD),)
-core-y		+= kernel/ certs/ mm/ fs/ ipc/ security/ crypto/ block/
+# core-y		+= kernel/ certs/ mm/ fs/ ipc/ security/ crypto/ block/
 
 vmlinux-dirs	:= $(patsubst %/,%,$(filter %/, $(init-y) $(init-m) \
 		     $(core-y) $(core-m) $(drivers-y) $(drivers-m) \
@@ -888,19 +911,20 @@ vmlinux-dirs	:= $(patsubst %/,%,$(filter %/, $(init-y) $(init-m) \
 vmlinux-alldirs	:= $(sort $(vmlinux-dirs) $(patsubst %/,%,$(filter %/, \
 		     $(init-) $(core-) $(drivers-) $(net-) $(libs-) $(virt-))))
 
-init-y		:= $(patsubst %/, %/built-in.o, $(init-y))
+# init-y		:= $(patsubst %/, %/built-in.o, $(init-y))
 core-y		:= $(patsubst %/, %/built-in.o, $(core-y))
-drivers-y	:= $(patsubst %/, %/built-in.o, $(drivers-y))
-net-y		:= $(patsubst %/, %/built-in.o, $(net-y))
-libs-y1		:= $(patsubst %/, %/lib.a, $(libs-y))
-libs-y2		:= $(patsubst %/, %/built-in.o, $(libs-y))
-libs-y		:= $(libs-y1) $(libs-y2)
-virt-y		:= $(patsubst %/, %/built-in.o, $(virt-y))
+# drivers-y	:= $(patsubst %/, %/built-in.o, $(drivers-y))
+# net-y		:= $(patsubst %/, %/built-in.o, $(net-y))
+# libs-y1		:= $(patsubst %/, %/lib.a, $(libs-y))
+# libs-y2		:= $(patsubst %/, %/built-in.o, $(libs-y))
+# libs-y		:= $(libs-y1) $(libs-y2)
+# virt-y		:= $(patsubst %/, %/built-in.o, $(virt-y))
 
 # Externally visible symbols (used by link-vmlinux.sh)
 export KBUILD_VMLINUX_INIT := $(head-y) $(init-y)
 export KBUILD_VMLINUX_MAIN := $(core-y) $(libs-y) $(drivers-y) $(net-y) $(virt-y)
-export KBUILD_LDS          := arch/$(SRCARCH)/kernel/vmlinux.lds
+# export KBUILD_LDS          := arch/$(SRCARCH)/kernel/vmlinux.lds
+export KBUILD_LDS          := c/src/lib/libcpu/$(SRCARCH)/kernel/vmlinux.lds
 export LDFLAGS_vmlinux
 # used by scripts/pacmage/Makefile
 export KBUILD_ALLDIRS := $(sort $(filter-out arch/%,$(vmlinux-alldirs)) arch Documentation include samples scripts tools)
@@ -986,7 +1010,8 @@ prepare0: archprepare FORCE
 	$(Q)$(MAKE) $(build)=.
 
 # All the preparing..
-prepare: prepare0
+# prepare: prepare0
+prepare: ;
 
 # Generate some files
 # ---------------------------------------------------------------------------

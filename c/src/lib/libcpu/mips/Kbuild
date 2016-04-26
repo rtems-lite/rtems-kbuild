@@ -4,7 +4,8 @@
 subdir-ccflags-y := -Werror
 
 # platform specific definitions
-include arch/mips/Kbuild.platforms
+# include arch/mips/Kbuild.platforms
+include c/src/lib/libcpu/mips/Kbuild.platforms
 obj-y := $(platform-y)
 
 # make clean traverses $(obj-) without having included .config, so

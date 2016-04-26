@@ -2,10 +2,11 @@
 # For a description of the syntax of this configuration file,
 # see Documentation/kbuild/kconfig-language.txt.
 #
-mainmenu "Linux/$ARCH $KERNELVERSION Kernel Configuration"
+mainmenu "RTEMS/$ARCH $KERNELVERSION Kernel Configuration"
 
 config SRCARCH
 	string
 	option env="SRCARCH"
 
-source "arch/$SRCARCH/Kconfig"
+# source "arch/$SRCARCH/Kconfig"
+source "c/src/lib/libcpu/$SRCARCH/Kconfig"

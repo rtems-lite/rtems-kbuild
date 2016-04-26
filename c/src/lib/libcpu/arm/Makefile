@@ -75,6 +75,7 @@ ifeq ($(CONFIG_CPU_32v6),y)
 arch-$(CONFIG_CPU_32v6K)	=-D__LINUX_ARM_ARCH__=6 $(call cc-option,-march=armv6k,-march=armv5t -Wa$(comma)-march=armv6k)
 endif
 arch-$(CONFIG_CPU_32v5)		=-D__LINUX_ARM_ARCH__=5 $(call cc-option,-march=armv5te,-march=armv4t)
+arch-y				=-D__LINUX_ARM_ARCH__=5 $(call cc-option,-march=armv5te,-march=armv4t)
 arch-$(CONFIG_CPU_32v4T)	=-D__LINUX_ARM_ARCH__=4 -march=armv4t
 arch-$(CONFIG_CPU_32v4)		=-D__LINUX_ARM_ARCH__=4 -march=armv4
 arch-$(CONFIG_CPU_32v3)		=-D__LINUX_ARM_ARCH__=3 -march=armv3
@@ -90,6 +91,7 @@ tune-$(CONFIG_CPU_ARM9TDMI)	=-mtune=arm9tdmi
 tune-$(CONFIG_CPU_ARM940T)	=-mtune=arm9tdmi
 tune-$(CONFIG_CPU_ARM946E)	=$(call cc-option,-mtune=arm9e,-mtune=arm9tdmi)
 tune-$(CONFIG_CPU_ARM920T)	=-mtune=arm9tdmi
+tune-y				=-mtune=arm9tdmi
 tune-$(CONFIG_CPU_ARM922T)	=-mtune=arm9tdmi
 tune-$(CONFIG_CPU_ARM925T)	=-mtune=arm9tdmi
 tune-$(CONFIG_CPU_ARM926T)	=-mtune=arm9tdmi
@@ -108,7 +110,7 @@ tune-y := $(tune-y)
 ifeq ($(CONFIG_AEABI),y)
 CFLAGS_ABI	:=-mabi=aapcs-linux -mno-thumb-interwork -mfpu=vfp
 else
-CFLAGS_ABI	:=$(call cc-option,-mapcs-32,-mabi=apcs-gnu) $(call cc-option,-mno-thumb-interwork,)
+# CFLAGS_ABI	:=$(call cc-option,-mapcs-32,-mabi=apcs-gnu) $(call cc-option,-mno-thumb-interwork,)
 endif
 
 ifeq ($(CONFIG_ARM_UNWIND),y)
@@ -131,12 +133,15 @@ endif
 
 # Need -Uarm for gcc < 3.x
 KBUILD_CFLAGS	+=$(CFLAGS_ABI) $(CFLAGS_ISA) $(arch-y) $(tune-y) $(call cc-option,-mshort-load-bytes,$(call cc-option,-malignment-traps,)) -msoft-float -Uarm
-KBUILD_AFLAGS	+=$(CFLAGS_ABI) $(AFLAGS_ISA) $(arch-y) $(tune-y) -include asm/unified.h -msoft-float
+# KBUILD_AFLAGS	+=$(CFLAGS_ABI) $(AFLAGS_ISA) $(arch-y) $(tune-y) -include asm/unified.h -msoft-float
+KBUILD_AFLAGS	+=$(CFLAGS_ABI) $(AFLAGS_ISA) $(arch-y) $(tune-y) -msoft-float
 
 CHECKFLAGS	+= -D__arm__
 
+
 #Default value
-head-y		:= arch/arm/kernel/head$(MMUEXT).o
+#head-y		:= arch/arm/kernel/head$(MMUEXT).o
+head-y		:= c/src/lib/libbsp/arm/smdk2410/start/start.o
 
 # Text offset. This list is sorted numerically by address in order to
 # provide a means to avoid/resolve conflicts in multi-arch kernels.
@@ -154,6 +159,7 @@ textofs-$(CONFIG_ARCH_AXXIA) := 0x00308000
 
 # Machine directory name.  This list is sorted alphanumerically
 # by CONFIG_* macro name.
+machine-y				+= s3c24xx
 machine-$(CONFIG_ARCH_ALPINE)		+= alpine
 machine-$(CONFIG_ARCH_AT91)		+= at91
 machine-$(CONFIG_ARCH_AXXIA)		+= axxia
@@ -201,7 +207,7 @@ machine-$(CONFIG_ARCH_QCOM)		+= qcom
 machine-$(CONFIG_ARCH_REALVIEW)		+= realview
 machine-$(CONFIG_ARCH_ROCKCHIP)		+= rockchip
 machine-$(CONFIG_ARCH_RPC)		+= rpc
-machine-$(CONFIG_ARCH_S3C24XX)		+= s3c24xx
+# machine-$(CONFIG_ARCH_S3C24XX)		+= s3c24xx
 machine-$(CONFIG_ARCH_S3C64XX)		+= s3c64xx
 machine-$(CONFIG_ARCH_S5PV210)		+= s5pv210
 machine-$(CONFIG_ARCH_SA1100)		+= sa1100
@@ -247,7 +253,8 @@ TEXT_OFFSET := $(textofs-y)
 
 # The first directory contains additional information for the boot setup code
 ifneq ($(machine-y),)
-MACHINE  := arch/arm/mach-$(word 1,$(machine-y))/
+# MACHINE  := arch/arm/mach-$(word 1,$(machine-y))/
+MACHINE  := c/src/lib/libcpu/arm/$(word 1,$(machine-y))/
 else
 MACHINE  :=
 endif
@@ -255,7 +262,7 @@ ifeq ($(CONFIG_ARCH_MULTIPLATFORM),y)
 MACHINE  :=
 endif
 
-machdirs := $(patsubst %,arch/arm/mach-%/,$(machine-y))
+machdirs := $(patsubst %,c/src/lib/libcpu/arm/%/,$(machine-y))
 platdirs := $(patsubst %,arch/arm/plat-%/,$(sort $(plat-y)))
 
 ifneq ($(CONFIG_ARCH_MULTIPLATFORM),y)
@@ -274,24 +281,26 @@ ifeq ($(FASTFPE),$(wildcard $(FASTFPE)))
 FASTFPE_OBJ	:=$(FASTFPE)/
 endif
 
-core-$(CONFIG_FPE_NWFPE)	+= arch/arm/nwfpe/
-core-$(CONFIG_FPE_FASTFPE)	+= $(FASTFPE_OBJ)
-core-$(CONFIG_VFP)		+= arch/arm/vfp/
-core-$(CONFIG_XEN)		+= arch/arm/xen/
-core-$(CONFIG_KVM_ARM_HOST) 	+= arch/arm/kvm/
-core-$(CONFIG_VDSO)		+= arch/arm/vdso/
+# core-$(CONFIG_FPE_NWFPE)	+= arch/arm/nwfpe/
+# core-$(CONFIG_FPE_FASTFPE)	+= $(FASTFPE_OBJ)
+# core-$(CONFIG_VFP)		+= arch/arm/vfp/
+# core-$(CONFIG_XEN)		+= arch/arm/xen/
+# core-$(CONFIG_KVM_ARM_HOST) 	+= arch/arm/kvm/
+# core-$(CONFIG_VDSO)		+= arch/arm/vdso/
 
 # If we have a machine-specific directory, then include it in the build.
-core-y				+= arch/arm/kernel/ arch/arm/mm/ arch/arm/common/
-core-y				+= arch/arm/probes/
-core-y				+= arch/arm/net/
-core-y				+= arch/arm/crypto/
-core-y				+= arch/arm/firmware/
+# core-y				+= arch/arm/kernel/ arch/arm/mm/ arch/arm/common/
+# core-y				+= arch/arm/probes/
+# core-y				+= arch/arm/net/
+# core-y				+= arch/arm/crypto/
+# core-y				+= arch/arm/firmware/
+core-y				+= cpukit/score/cpu/arm/
+core-y				+= c/src/lib/libcpu/shared/
 core-y				+= $(machdirs) $(platdirs)
 
-drivers-$(CONFIG_OPROFILE)      += arch/arm/oprofile/
+#drivers-$(CONFIG_OPROFILE)      += arch/arm/oprofile/
 
-libs-y				:= arch/arm/lib/ $(libs-y)
+#libs-y				:= arch/arm/lib/ $(libs-y)
 
 # Default target when executing plain make
 ifeq ($(CONFIG_XIP_KERNEL),y)
@@ -310,7 +319,7 @@ all:	$(KBUILD_IMAGE) $(KBUILD_DTBS)
 boot := arch/arm/boot
 
 archprepare:
-	$(Q)$(MAKE) $(build)=arch/arm/tools include/generated/mach-types.h
+	$(Q)$(MAKE) $(build)=c/src/lib/libcpu/arm/tools include/generated/mach-types.h
 
 # Convert bzImage to zImage
 bzImage: zImage

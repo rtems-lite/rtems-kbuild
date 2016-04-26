@@ -970,29 +970,29 @@ config MIPS_PARAVIRT
 
 endchoice
 
-source "arch/mips/alchemy/Kconfig"
-source "arch/mips/ath25/Kconfig"
-source "arch/mips/ath79/Kconfig"
-source "arch/mips/bcm47xx/Kconfig"
-source "arch/mips/bcm63xx/Kconfig"
-source "arch/mips/bmips/Kconfig"
-source "arch/mips/jazz/Kconfig"
-source "arch/mips/jz4740/Kconfig"
-source "arch/mips/lantiq/Kconfig"
-source "arch/mips/lasat/Kconfig"
-source "arch/mips/pistachio/Kconfig"
-source "arch/mips/pmcs-msp71xx/Kconfig"
-source "arch/mips/ralink/Kconfig"
-source "arch/mips/sgi-ip27/Kconfig"
-source "arch/mips/sibyte/Kconfig"
-source "arch/mips/txx9/Kconfig"
-source "arch/mips/vr41xx/Kconfig"
-source "arch/mips/cavium-octeon/Kconfig"
-source "arch/mips/loongson32/Kconfig"
-source "arch/mips/loongson64/Kconfig"
-source "arch/mips/netlogic/Kconfig"
-source "arch/mips/paravirt/Kconfig"
-source "arch/mips/xilfpga/Kconfig"
+# source "arch/mips/alchemy/Kconfig"
+# source "arch/mips/ath25/Kconfig"
+# source "arch/mips/ath79/Kconfig"
+# source "arch/mips/bcm47xx/Kconfig"
+# source "arch/mips/bcm63xx/Kconfig"
+# source "arch/mips/bmips/Kconfig"
+# source "arch/mips/jazz/Kconfig"
+# source "arch/mips/jz4740/Kconfig"
+# source "arch/mips/lantiq/Kconfig"
+# source "arch/mips/lasat/Kconfig"
+# source "arch/mips/pistachio/Kconfig"
+# source "arch/mips/pmcs-msp71xx/Kconfig"
+# source "arch/mips/ralink/Kconfig"
+# source "arch/mips/sgi-ip27/Kconfig"
+# source "arch/mips/sibyte/Kconfig"
+# source "arch/mips/txx9/Kconfig"
+# source "arch/mips/vr41xx/Kconfig"
+# source "arch/mips/cavium-octeon/Kconfig"
+# source "arch/mips/loongson32/Kconfig"
+# source "arch/mips/loongson64/Kconfig"
+# source "arch/mips/netlogic/Kconfig"
+# source "arch/mips/paravirt/Kconfig"
+# source "arch/mips/xilfpga/Kconfig"
 
 endmenu
 
@@ -2477,7 +2477,7 @@ config HW_PERF_EVENTS
 	  Enable hardware performance counter support for perf events. If
 	  disabled, perf events will use software events only.
 
-source "mm/Kconfig"
+# source "mm/Kconfig"
 
 config SMP
 	bool "Multi-Processing support"
@@ -2637,7 +2637,7 @@ config HZ
 config SCHED_HRTICK
 	def_bool HIGH_RES_TIMERS
 
-source "kernel/Kconfig.preempt"
+# source "kernel/Kconfig.preempt"
 
 config KEXEC
 	bool "Kexec system call"
@@ -2825,9 +2825,9 @@ config PGTABLE_LEVELS
 	default 3 if 64BIT && !PAGE_SIZE_64KB
 	default 2
 
-source "init/Kconfig"
+# source "init/Kconfig"
 
-source "kernel/Kconfig.freezer"
+# source "kernel/Kconfig.freezer"
 
 menu "Bus options (PCI, PCMCIA, EISA, ISA, TC)"
 
@@ -2861,9 +2861,9 @@ config HT_PCI
 config PCI_DOMAINS
 	bool
 
-source "drivers/pci/Kconfig"
+# source "drivers/pci/Kconfig"
 
-source "drivers/pci/pcie/Kconfig"
+# source "drivers/pci/pcie/Kconfig"
 
 #
 # ISA support is now enabled via select.  Too many systems still have the one
@@ -2891,7 +2891,7 @@ config EISA
 
 	  Otherwise, say N.
 
-source "drivers/eisa/Kconfig"
+# source "drivers/eisa/Kconfig"
 
 config TC
 	bool "TURBOchannel support"
@@ -2922,9 +2922,9 @@ config ZONE_DMA
 config ZONE_DMA32
 	bool
 
-source "drivers/pcmcia/Kconfig"
+# source "drivers/pcmcia/Kconfig"
 
-source "drivers/pci/hotplug/Kconfig"
+# source "drivers/pci/hotplug/Kconfig"
 
 config RAPIDIO
 	tristate "RapidIO support"
@@ -2934,13 +2934,13 @@ config RAPIDIO
 	  If you say Y here, the kernel will include drivers and
 	  infrastructure code to support RapidIO interconnect devices.
 
-source "drivers/rapidio/Kconfig"
+# source "drivers/rapidio/Kconfig"
 
 endmenu
 
 menu "Executable file formats"
 
-source "fs/Kconfig.binfmt"
+# source "fs/Kconfig.binfmt"
 
 config TRAD_SIGNALS
 	bool
@@ -2998,7 +2998,7 @@ config ARCH_SUSPEND_POSSIBLE
 	def_bool y
 	depends on SYS_SUPPORTS_HOTPLUG_CPU || !SMP
 
-source "kernel/power/Kconfig"
+# source "kernel/power/Kconfig"
 
 endmenu
 
@@ -3008,27 +3008,27 @@ config MIPS_EXTERNAL_TIMER
 menu "CPU Power Management"
 
 if CPU_SUPPORTS_CPUFREQ && MIPS_EXTERNAL_TIMER
-source "drivers/cpufreq/Kconfig"
+# source "drivers/cpufreq/Kconfig"
 endif
 
-source "drivers/cpuidle/Kconfig"
+# source "drivers/cpuidle/Kconfig"
 
 endmenu
 
-source "net/Kconfig"
+# source "net/Kconfig"
 
-source "drivers/Kconfig"
+# source "drivers/Kconfig"
 
-source "drivers/firmware/Kconfig"
+# source "drivers/firmware/Kconfig"
 
-source "fs/Kconfig"
+# source "fs/Kconfig"
 
-source "arch/mips/Kconfig.debug"
+# source "arch/mips/Kconfig.debug"
 
-source "security/Kconfig"
+# source "security/Kconfig"
 
-source "crypto/Kconfig"
+# source "crypto/Kconfig"
 
-source "lib/Kconfig"
+# source "lib/Kconfig"
 
-source "arch/mips/kvm/Kconfig"
+# source "arch/mips/kvm/Kconfig"
