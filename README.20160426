@@ -1,0 +1,66 @@
+以SMDK2410为例，把和CPU相关的代码编译进来。
+TODO: 
+arch/
+ 	这个是KBuild自动生成的一些文件，以后得改改名，和RTEMS结合起来，
+ 	找个合适的地方很重要。
+
+cpukit/score/cpu/arm/config.h
+ 	这个文件是空的，原版编译的时候也没生成这个文件，得找找。
+ 
+include/
+ 	按照原版程序的编译方式，把头文件放到这里了。
+ 
+init/
+samples/
+ 	以后删除
+ 
+build-v.log
+build.log
+ 	编译过程输出
+
+c/src/lib/libbsp/arm/Makefile
+c/src/lib/libbsp/arm/gitclean
+c/src/lib/libbsp/arm/shared/Makefile
+c/src/lib/libbsp/arm/shared/abort/Makefile
+c/src/lib/libbsp/arm/shared/armv7m/Makefile
+c/src/lib/libbsp/arm/shared/armv7m/clock/Makefile
+c/src/lib/libbsp/arm/shared/armv7m/irq/Makefile
+c/src/lib/libbsp/arm/shared/armv7m/startup/Makefile
+c/src/lib/libbsp/arm/shared/comm/Makefile
+c/src/lib/libbsp/arm/shared/lpc/Makefile
+c/src/lib/libbsp/arm/shared/lpc/clock/Makefile
+c/src/lib/libbsp/arm/shared/lpc/network/Makefile
+c/src/lib/libbsp/arm/shared/start/Makefile
+c/src/lib/libbsp/arm/shared/startup/Makefile
+c/src/lib/libbsp/arm/smdk2410/Makefile
+c/src/lib/libbsp/arm/smdk2410/console/Makefile
+c/src/lib/libbsp/arm/smdk2410/smc/Makefile
+c/src/lib/libbsp/arm/smdk2410/start/Makefile
+c/src/lib/libbsp/arm/smdk2410/start/dummy.c
+c/src/lib/libbsp/arm/smdk2410/startup/Makefile
+c/src/lib/libbsp/shared/Makefile
+c/src/lib/libbsp/shared/Makefile.smdk2410
+c/src/lib/libbsp/shared/gdbstub/Makefile
+c/src/lib/libbsp/shared/pci/Makefile
+c/src/lib/libbsp/shared/src/Makefile
+c/src/lib/libbsp/shared/src/Makefile.smdk2410
+c/src/lib/libbsp/shared/umon/Makefile
+c/src/lib/libbsp/shared/vmeUniverse/Makefile
+c/src/lib/libcpu/arm/s3c24xx/Makefile
+c/src/lib/libcpu/arm/s3c24xx/clock/Makefile
+c/src/lib/libcpu/arm/s3c24xx/irq/Makefile
+c/src/lib/libcpu/arm/s3c24xx/timer/Makefile
+c/src/lib/libcpu/shared/Makefile
+c/src/lib/libcpu/shared/src/Makefile
+c/src/libchip/Makefile
+c/src/libchip/display/Makefile
+c/src/libchip/flash/Makefile
+c/src/libchip/i2c/Makefile
+c/src/libchip/ide/Makefile
+c/src/libchip/network/Makefile
+c/src/libchip/rtc/Makefile
+c/src/libchip/serial/Makefile
+c/src/libchip/shmdr/Makefile
+c/src/support/Makefile
+cpukit/score/cpu/arm/Makefile
+	有用的Makefile文件，SMDK2410硬件相关的文件加进来，有可能缺漏，大家帮忙检查。

@@ -1,0 +1,10 @@
+
+for d in altera-cyclone-v/ atsam/ beagle/ csb336/ csb337/ edb7312/ gdbarmsim/ gumstix/ lm3s69xx/ lpc176x/ lpc24xx/ lpc32xx/ raspberrypi/ realview-pbx-a9/ rtl22xx/ stm32f4/ stm32f4x/ stm32f7x/ tms570/ xilinx-zynq/
+do
+
+cd $d
+git clean -dfx
+cd -
+
+done
+
