@@ -1,0 +1,14 @@
+obj-y += addlq.o
+obj-y += cnvpkt.o
+obj-y += dump.o
+obj-y += fatal.o
+obj-y += getlq.o
+obj-y += getpkt.o
+obj-y += init.o
+obj-y += initlq.o
+obj-y += intr.o
+obj-y += mpisr.o
+obj-y += poll.o
+obj-y += receive.o
+obj-y += retpkt.o
+obj-y += send.o

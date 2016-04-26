@@ -1,0 +1,11 @@
+obj-y += mc68681_baud.o
+obj-y += mc68681.o
+obj-y += mc68681_reg2.o
+obj-y += mc68681_reg4.o
+obj-y += mc68681_reg8.o
+obj-y += mc68681_reg.o
+obj-y += ns16550.o
+obj-y += ns16550-context.o
+obj-y += serprobe.o
+obj-y += z85c30.o
+obj-y += z85c30_reg.o

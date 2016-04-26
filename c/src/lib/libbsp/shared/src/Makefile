@@ -1,0 +1,10 @@
+obj-n += bsp-fdt.o
+obj-n += bsp-uboot-board-info.o
+obj-y += irq-default-handler.o
+obj-y += irq-generic.o
+obj-y += irq-info.o
+obj-y += irq-legacy.o
+obj-y += irq-server.o
+obj-y += irq-shell.o
+obj-n += stackalloc.o
+obj-n += uart-output-char.o

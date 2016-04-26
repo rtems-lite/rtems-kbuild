@@ -1,0 +1,14 @@
+obj-y += ds1375.o
+obj-y += icm7170.o
+obj-y += icm7170_reg2.o
+obj-y += icm7170_reg4.o
+obj-y += icm7170_reg8.o
+obj-y += icm7170_reg.o
+obj-y += m48t08.o
+obj-y += m48t08_reg2.o
+obj-y += m48t08_reg4.o
+obj-y += m48t08_reg8.o
+obj-y += m48t08_reg.o
+obj-y += mc146818a.o
+obj-y += mc146818a_ioreg.o
+obj-y += rtcprobe.o
