@@ -11,9 +11,11 @@
 # endif
 # endif
 
+LIBNETWORKING := y
+LIBSHELL := y
 ifeq ($(LIBNETWORKING),y)
 ifeq ($(LIBSHELL),y)
-obj-y += check_passwd.o des.c pty.o telnetd.o
+obj-y += check_passwd.o des.o pty.o telnetd.o
 endif
 endif
 
