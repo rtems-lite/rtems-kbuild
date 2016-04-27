@@ -15,3 +15,13 @@ obj-y += if_fxp.o
 obj-y += open_eth.o
 obj-y += smc91111.o
 obj-y += sonic.o
+
+subdir-ccflags-y := \
+	-D__INSIDE_RTEMS_BSD_TCPIP_STACK__ \
+	-DPACKAGE_BUGREPORT=\"https://devel.rtems.org/newticket\" \
+	-DPACKAGE_NAME=\"rtems-c-src\" \
+	-DPACKAGE_STRING=\"rtems-c-src\" \
+	-DPACKAGE_TARNAME=\"rtems-c-src\" \
+	-DPACKAGE_URL=\"\" \
+	-DPACKAGE_VERSION=\"4.11.99.0\"
+

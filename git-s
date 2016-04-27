@@ -1,0 +1,7 @@
+git checkout -- c/src/lib/libbsp/arm/stm32f7x/hal/CMSIS/Device/ST/STM32F7xx/Source/Templates/arm/startup_stm32f745xx.s
+git checkout -- c/src/lib/libbsp/arm/stm32f7x/hal/CMSIS/Device/ST/STM32F7xx/Source/Templates/arm/startup_stm32f746xx.s
+git checkout -- c/src/lib/libbsp/arm/stm32f7x/hal/CMSIS/Device/ST/STM32F7xx/Source/Templates/arm/startup_stm32f756xx.s
+git checkout -- c/src/lib/libbsp/arm/stm32f7x/hal/CMSIS/Device/ST/STM32F7xx/Source/Templates/gcc/startup_stm32f745xx.s
+git checkout -- c/src/lib/libbsp/arm/stm32f7x/hal/CMSIS/Device/ST/STM32F7xx/Source/Templates/gcc/startup_stm32f746xx.s
+git checkout -- c/src/lib/libbsp/arm/stm32f7x/hal/CMSIS/Device/ST/STM32F7xx/Source/Templates/gcc/startup_stm32f756xx.s
+git checkout -- c/src/lib/libbsp/nios2/nios2_iss/start/crtnn.s

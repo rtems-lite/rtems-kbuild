@@ -384,7 +384,6 @@ LINUXINCLUDE    := \
 		-Ic/src/lib/libcpu/$(ARCH)/shared/include \
 		-Icpukit \
 		-Icpukit/score/include \
-		-Icpukit/dev/include \
 		-Icpukit/include \
 		-Icpukit/score/cpu/arm \
 		-DHAVE_CONFIG_H -DCPU_S3C2410 -D__rtems__ \
@@ -565,11 +564,12 @@ scripts: ;
 # Objects we will link into vmlinux / subdirs we need to visit
 # init-y		:= init/
 # drivers-y	:= drivers/ sound/ firmware/
-# drivers-y	:= c/src/libchip/
 # net-y		:= net/
 # libs-y		:= lib/
 # core-y		:= usr/
 # core-y		:= c/src/support/
+core-y			:= c/src/
+core-y			:= cpukit/
 # virt-y		:= virt/
 endif # KBUILD_EXTMOD
 
