@@ -56,7 +56,6 @@
 #     src/rpc/svc_raw.c src/rpc/svc_run.c src/rpc/svc_simple.c \
 #     src/rpc/svc_tcp.c src/rpc/svc_udp.c src/rpc/rtems_portmapper.c \
 #     src/rpc/rtems_rpc.c
-
 CONFIG_LIBRPC := y
 obj-$(CONFIG_LIBRPC) += auth_none.o auth_unix.o
 obj-$(CONFIG_LIBRPC) += authunix_prot.o bindresvport.o clnt_generic.o
@@ -75,6 +74,9 @@ obj-$(CONFIG_LIBRPC) += rtems_rpc.o
 # 
 # librpc_CPPFLAGS = -D_RPC_read=read -D_RPC_write=write -D_RPC_close=close \
 #     -D_RTEMS_RPC_INTERNAL_
+subdir-ccflags-y := -D_RPC_read=read -D_RPC_write=write -D_RPC_close=close
+subdir-ccflags-y += -D_RTEMS_RPC_INTERNAL_
+
 # endif
 # 
 # librpc_mans = src/rpc/bindresvport.3 src/rpc/getrpcent.3 src/rpc/publickey.3 \
