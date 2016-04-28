@@ -1,0 +1,11 @@
+obj-y += if.o
+obj-y += if_ethersubr.o
+obj-y += if_loop.o
+obj-y += if_ppp.o
+obj-y += ppp_tty.o
+obj-y += radix.o
+obj-y += raw_cb.o
+obj-y += raw_usrreq.o
+obj-y += route.o
+obj-y += rtsock.o
+obj-y += slcompress.o
