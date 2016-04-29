@@ -147,6 +147,6 @@ obj-y += devfs/
 obj-y += dosfs/
 obj-y += imfs/
 obj-y += jffs2/
-obj-$(CONFIG_NFSCLIENT) += nfsclient/
+obj-n += nfsclient/
 obj-y += pipe/
 obj-y += rfs/

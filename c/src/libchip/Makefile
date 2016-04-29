@@ -5,4 +5,4 @@ obj-y += ide/
 obj-y += network/
 obj-y += rtc/
 obj-y += serial/
-obj-y += shmdr/
+obj-n += shmdr/

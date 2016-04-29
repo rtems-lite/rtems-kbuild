@@ -384,11 +384,11 @@ LINUXINCLUDE    := \
 		-Ic/src/lib/libcpu/$(ARCH)/shared/include \
 		-Icpukit \
 		-Icpukit/score/include \
-		-Icpukit/dev/include \
 		-Icpukit/include \
 		-Icpukit/score/cpu/arm \
 		-DHAVE_CONFIG_H -DCPU_S3C2410 -D__rtems__ \
-		-Iinclude
+		-Iinclude \
+		-Icpukit/rtems/include
 
 LINUXINCLUDE_   := \
 		-I$(srctree)/arch/$(hdr-arch)/include \
@@ -400,11 +400,13 @@ LINUXINCLUDE_   := \
 
 #KBUILD_CPPFLAGS := -D__KERNEL__
 
-__KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
+# KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -fno-strict-aliasing -fno-common \
 		   -Werror-implicit-function-declaration \
 		   -Wno-format-security \
 		   -std=gnu89
+
+KBUILD_CFLAGS   := -std=gnu99
 
 KBUILD_AFLAGS_KERNEL :=
 KBUILD_CFLAGS_KERNEL :=
@@ -565,11 +567,12 @@ scripts: ;
 # Objects we will link into vmlinux / subdirs we need to visit
 # init-y		:= init/
 # drivers-y	:= drivers/ sound/ firmware/
-# drivers-y	:= c/src/libchip/
 # net-y		:= net/
 # libs-y		:= lib/
 # core-y		:= usr/
 # core-y		:= c/src/support/
+core-y			:= c/src/
+core-y			:= cpukit/
 # virt-y		:= virt/
 endif # KBUILD_EXTMOD
 
